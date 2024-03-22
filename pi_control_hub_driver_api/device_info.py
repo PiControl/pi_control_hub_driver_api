@@ -16,8 +16,6 @@
 
 class DeviceInfo(object):
     """This class is used to provide information for a device. It can be inherited."""
-    _name: str
-    _id: str
 
     def __init__(self, name: str, device_id: str):
         self._name = name

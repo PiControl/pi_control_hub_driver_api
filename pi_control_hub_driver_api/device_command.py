@@ -21,9 +21,6 @@ class DeviceCommand(ABC):
     """This abstract class is the base for all commands of a device. Inherit
     this class and implement the `execute` method in your implementation.
     """
-    _id: int
-    _title: str
-    _icon: bytes
 
     def __init__(self, cmd_id: int, title: str, icon: bytes):
         """Creates a device command with the given data.

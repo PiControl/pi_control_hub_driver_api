@@ -46,10 +46,6 @@ class DeviceDriverDescriptor(ABC):
     driver implementations.
     """
 
-    _driver_id: UUID
-    _display_name: str
-    _description: str
-
     def __init__(self, driver_id: UUID, display_name: str, description: str):
         self._driver_id = driver_id
         self._display_name = display_name
