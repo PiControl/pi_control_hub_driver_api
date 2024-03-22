@@ -55,4 +55,10 @@ class DeviceCommand(ABC):
 
     @abstractmethod
     def execute(self):
-        """Execute the command. This method must be implemented by the specific command."""
+        """
+        Execute the command. This method must be implemented by the specific command.
+
+        Raises
+        ------
+        `DeviceCommandException` in case of an error while executing the command.
+        """

@@ -18,11 +18,26 @@ from abc import ABC, abstractmethod
 from typing import List, Tuple
 
 from pi_control_hub_driver_api.device_command import DeviceCommand
+from pi_control_hub_driver_api.device_info import DeviceInfo
+from pi_control_hub_driver_api.exceptions import CommandNotFoundException
 
 
 class DeviceDriver(ABC):
     """This is the abstract class that needs to be inherited in order to communicate
     with a device."""
+
+    def __init__(self, device_info: DeviceInfo):
+        self._device_info = device_info
+
+    @property
+    def name(self) -> str:
+        """The device name."""
+        return self._device_info.name
+
+    @property
+    def device_id(self) -> str:
+        """The device ID."""
+        return self._device_info.device_id
 
     @abstractmethod
     def get_commands(self) -> List[DeviceCommand]:
@@ -31,6 +46,10 @@ class DeviceDriver(ABC):
         Returns
         -------
         The commands that are supported by this device.
+
+        Raises
+        ------
+        `DeviceDriverException` in case of an error.
         """
         pass
 
@@ -44,12 +63,18 @@ class DeviceDriver(ABC):
 
         Returns
         -------
-        The command for the ID or None if the command ID hasn't been found
+        The command for the ID.
+
+        Raises
+        ------
+        `CommandNotFoundException` if the command is not known.
+
+        `DeviceDriverException` in case of an other error.
         """
         result = list(filter(lambda c: c.id == cmd_id, self.get_commands()))
         if result.count() > 0:
             return result[0]
-        return None
+        raise CommandNotFoundException(self, cmd_id)
 
     @property
     @abstractmethod
@@ -82,6 +107,10 @@ class DeviceDriver(ABC):
         ----------
         command : DeviceCommand
             The command that shall be executed
+
+        Raises
+        ------
+        `DeviceCommandException` in case of an error while executing the command.
         """
 
     @property
