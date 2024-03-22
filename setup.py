@@ -16,17 +16,17 @@
 
 from setuptools import setup
 
-from berry_control_hub_driver_api import __version__, __author__, __author_email__
+from pi_control_hub_driver_api import __version__, __author__, __author_email__
 
 setup(
-    name='berry_control_hub_driver_api',
+    name='pi_control_hub_driver_api',
     version=__version__,
-    description='Base API that must be implemented by BerryControl Hub drivers',
-    url='https://github.com/BerryControl/berry_control_hub_driver_api',
+    description='Base API for PiControl Hub drivers.',
+    url='https://github.com/PiControl/pi_control_hub_driver_api',
     author=__author__,
     author_email=__author_email__,
     license='Apache 2.0',
-    packages=['berry_control_hub_driver_api'],
+    packages=['pi_control_hub_driver_api'],
     install_requires=[
         'pluginlib>=0.9.1',
     ],
