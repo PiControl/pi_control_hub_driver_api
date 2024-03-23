@@ -15,7 +15,6 @@
 """
 
 from pi_control_hub_driver_api.device_command import DeviceCommand
-from pi_control_hub_driver_api.device_driver import DeviceDriver
 
 
 class DeviceDriverException(Exception):
@@ -33,14 +32,14 @@ class DeviceDriverException(Exception):
 class CommandNotFoundException(DeviceDriverException):
     """This exception is thrown if a command is not found."""
 
-    def __init__(self, device_driver: DeviceDriver, command_id: int):
-        DeviceDriverException.__init__(self, f"The device '{device_driver.name}' (id = {device_driver.device_id}) has no command with id '{command_id}'")
+    def __init__(self, device_driver_name: str, command_id: int):
+        DeviceDriverException.__init__(self, f"The device '{device_driver_name}' has no command with id '{command_id}'")
 
 class DeviceCommandException(DeviceDriverException):
     """This exception is thrown if an error occurs during command execution."""
 
-    def __init__(self, command: DeviceCommand, device_driver: DeviceDriver = None):
-        if device_driver:
-            DeviceDriverException.__init__(self, f"Error while executing the command '{command.title}' (id = {command.id}) for device '{device_driver.name}' (id = {device_driver.device_id}).")
+    def __init__(self, command: DeviceCommand, device_driver_name: str = None):
+        if device_driver_name:
+            DeviceDriverException.__init__(self, f"Error while executing the command '{command.title}' (id = {command.id}) for device '{device_driver_name}'.")
         else:
             DeviceDriverException.__init__(self, f"Error while executing the command '{command.title}' (id = {command.id}).")

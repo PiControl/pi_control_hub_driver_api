@@ -74,7 +74,7 @@ class DeviceDriver(ABC):
         result = list(filter(lambda c: c.id == cmd_id, self.get_commands()))
         if result.count() > 0:
             return result[0]
-        raise CommandNotFoundException(self, cmd_id)
+        raise CommandNotFoundException(self.name, cmd_id)
 
     @property
     @abstractmethod
