@@ -28,7 +28,6 @@ setup(
     license='Apache 2.0',
     packages=['pi_control_hub_driver_api'],
     install_requires=[
-        'pluginlib>=0.9.1',
     ],
 
     classifiers=[
