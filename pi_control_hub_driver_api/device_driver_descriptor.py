@@ -14,7 +14,6 @@
    limitations under the License.
 """
 
-from abc import ABC, abstractmethod
 from enum import Enum
 from typing import List, Tuple
 from uuid import UUID
@@ -40,8 +39,8 @@ class AuthenticationMethod(Enum):
     """Authenticate with a username and password"""
 
 
-@pluginlib.Parent(plugin_type='DeviceDriverDescriptor', group='PiControlHub')
-class DeviceDriverDescriptor(ABC):
+@pluginlib.Parent('DeviceDriverDescriptor', group='PiControlHub')
+class DeviceDriverDescriptor(object):
     """This abstract class is the base for all drivers and must be inherited by
     driver implementations.
     """
@@ -66,13 +65,11 @@ class DeviceDriverDescriptor(ABC):
         """The description of the device descriptor."""
         return self._description
 
-    @abstractmethod
     @pluginlib.abstractmethod
     def get_devices(self) -> List[DeviceInfo]:
         """Returns a list with the available device instances."""
 
     @property
-    @abstractmethod
     @pluginlib.abstractproperty
     def authentication_method(self) -> AuthenticationMethod:
         """The authentication method that is required when pairing a device."""
@@ -83,12 +80,10 @@ class DeviceDriverDescriptor(ABC):
         return self.authentication_method != AuthenticationMethod.NONE
 
     @property
-    @abstractmethod
     @pluginlib.abstractproperty
     def requires_pairing(self) -> bool:
         """This flag determines whether pairing is required to communicate with this device."""
 
-    @abstractmethod
     @pluginlib.abstractmethod
     def start_pairing(self, device_info: DeviceInfo, remote_name: str) -> Tuple[str, bool]:
         """Start the pairing process with the given device.
@@ -106,7 +101,6 @@ class DeviceDriverDescriptor(ABC):
         provides a PIN.
         """
 
-    @abstractmethod
     @pluginlib.abstractmethod
     def finalize_pairing(self, pairing_request: str, credentials: str, device_provides_pin: bool) -> bool:
         """Finalize the pairing process
@@ -119,7 +113,6 @@ class DeviceDriverDescriptor(ABC):
             The flag that determines whether the device provides a PIN.
         """
 
-    @abstractmethod
     @pluginlib.abstractmethod
     def create_device_instance(self, device_id: str) -> DeviceDriver:
         """Create a device driver instance for the device with the given ID.
