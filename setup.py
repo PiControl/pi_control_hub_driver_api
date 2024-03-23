@@ -27,8 +27,6 @@ setup(
     author_email=__author_email__,
     license='Apache 2.0',
     packages=['pi_control_hub_driver_api'],
-    install_requires=[
-    ],
 
     classifiers=[
         'Development Status :: 3 - Alpha',
