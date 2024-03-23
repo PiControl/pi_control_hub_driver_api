@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __author__ = 'Thomas Bonk'
 __author_email__ = 'thomas@meandmymac.de'
 
@@ -41,7 +41,7 @@ def installed_drivers(driver_name_prefix: str = 'pi_control_hub_driver_') -> Lis
 
     installed_packages = []
     for package in pkg_resources.working_set:
-        if package.key.startswith(driver_name_prefix):
+        if package.key.startswith(driver_name_prefix) and not package.key == 'pi_control_hub_driver_api':
             installed_packages.append(package.key)
     return installed_packages
 
