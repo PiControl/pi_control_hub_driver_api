@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 __author__ = 'Thomas Bonk'
 __author_email__ = 'thomas@meandmymac.de'
 
