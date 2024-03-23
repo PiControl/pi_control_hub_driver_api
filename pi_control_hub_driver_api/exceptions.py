@@ -23,8 +23,9 @@ class DeviceDriverException(Exception):
     related exceütions.
     """
 
-    def __init__(self, message: str):
+    def __init__(self, message: str, cause: Exception = None):
         self._message = message
+        self._cause = cause
 
     def __str__(self) -> str:
         return self._message
