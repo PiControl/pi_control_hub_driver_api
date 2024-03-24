@@ -23,7 +23,6 @@ from enum import Enum
 from typing import List, Tuple
 from uuid import UUID
 
-import importlib
 import pkg_resources
 
 
@@ -327,7 +326,7 @@ class DeviceCommandException(DeviceDriverException):
             DeviceDriverException.__init__(self, f"Error while executing the command '{command.title}' (id = {command.id}).")
 
 
-def installed_drivers(driver_name_prefix: str = 'pi_control_hub_driver_') -> List[str]:
+def installed_drivers(driver_name_prefix: str = 'pi-control-hub-driver-') -> List[DeviceDriverDescriptor]:
     """This function returns a list of names of installed PiControl drivers.
 
     Parameters
@@ -337,45 +336,13 @@ def installed_drivers(driver_name_prefix: str = 'pi_control_hub_driver_') -> Lis
 
     Returns
     -------
-    `List[str]`: List of names of installed PiControl Hub drivers"""
+    `List[DeviceDriverDescriptor]`: List of installed PiControl Hub drivers"""
 
-    installed_packages = []
+    driver_descriptors = []
     for package in pkg_resources.working_set:
-        if package.key.startswith(driver_name_prefix) and not package.key == 'pi_control_hub_driver_api':
-            installed_packages.append(package.key)
-    return installed_packages
-
-def load_driver(driver_name: str) -> DeviceDriverDescriptor:
-    """Loads the driver with the given name.
-
-    Parameters
-    ----------
-    `driver_name`: `str``
-        The of the driver to load.
-
-    Returns
-    -------
-    `DeviceDriverDescriptor`: The instance of the driver descriptor.
-
-    Raises
-    ------
-    `DeviceDriverException`: If an error occured.
-    """
-    try:
-        # Dynamically import the package
-        package_module = importlib.import_module(driver_name)
-
-        # Get the function that returns the driver descriptor instance
-        function = getattr(package_module, 'get_driver_descriptor')
-
-        return function()
-    except ImportError as exc:
-        raise DeviceDriverException(
-                f"Driver '{driver_name}' not found.",
-                cause=exc,
-            ) from exc
-    except AttributeError as exc:
-        raise DeviceDriverException(
-                f"Function 'get_driver_descriptor' not found in driver '{driver_name}'.",
-                cause=exc,
-            ) from exc
+        if package.key.startswith(driver_name_prefix) and not package.key == 'pi-control-hub-driver-api':
+            entry_map = package.get_entry_map()
+            entry_point_meta = entry_map["pi_control_hub_driver"]["driver_descriptor"]
+            entry_point = entry_point_meta.load()
+            driver_descriptors.append(entry_point())
+    return driver_descriptors
