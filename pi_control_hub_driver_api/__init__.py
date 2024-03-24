@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 __author__ = 'Thomas Bonk'
 __author_email__ = 'thomas@meandmymac.de'
 
@@ -213,6 +213,19 @@ class DeviceDriverDescriptor(ABC):
     """This abstract class is the base for all drivers and must be inherited by
     driver implementations.
     """
+
+    _config_path = None
+
+    @staticmethod
+    def set_config_path(config_path: str):
+        """The PiControl Hub server sets the config path where device drivers can
+        store and read their configurations."""
+        DeviceDriverDescriptor._config_path = config_path
+
+    @staticmethod
+    def get_config_path() -> str:
+        """The config path where device drivers can store and read their configurations."""
+        return DeviceDriverDescriptor._config_path
 
     def __init__(self, driver_id: UUID, display_name: str, description: str):
         self._driver_id = driver_id
