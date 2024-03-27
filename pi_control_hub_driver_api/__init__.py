@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__version__ = '0.3.3'
+__version__ = '0.3.4'
 __author__ = 'Thomas Bonk'
 __author_email__ = 'thomas@meandmymac.de'
 
@@ -307,6 +307,10 @@ class DeviceDriverDescriptor(ABC):
         Returns
         -------
         The instance of the device driver or None in case of an error.
+
+        Raises
+        ------
+        `DeviceNotFoundException` if the device hasn't been found.
         """
 
 
@@ -322,6 +326,11 @@ class DeviceDriverException(Exception):
 
     def __str__(self) -> str:
         return self._message
+
+class DeviceNotFoundException(DeviceDriverException):
+    """This exception is thrown, if a device wasn't found."""
+    def __init__(self, device_id: str):
+        DeviceDriverException.__init__(self, f"Device with ID '{device_id}' not found.")
 
 class CommandNotFoundException(DeviceDriverException):
     """This exception is thrown if a command is not found."""
