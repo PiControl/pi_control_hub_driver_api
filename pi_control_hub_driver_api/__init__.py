@@ -63,7 +63,7 @@ class DeviceCommand(ABC):
         return self._icon
 
     @abstractmethod
-    def execute(self):
+    async def execute(self):
         """
         Execute the command. This method must be implemented by the specific command.
 
@@ -109,7 +109,7 @@ class DeviceDriver(ABC):
         return self._device_info.device_id
 
     @abstractmethod
-    def get_commands(self) -> List[DeviceCommand]:
+    async def get_commands(self) -> List[DeviceCommand]:
         """Return the commands that are supported by this device.
 
         Returns
@@ -122,7 +122,7 @@ class DeviceDriver(ABC):
         """
         pass
 
-    def get_command(self, cmd_id: int) -> DeviceCommand:
+    async def get_command(self, cmd_id: int) -> DeviceCommand:
         """Return the command with the given ID.
 
         Parameters
@@ -168,7 +168,7 @@ class DeviceDriver(ABC):
         """
 
     @abstractmethod
-    def execute(self, command: DeviceCommand):
+    async def execute(self, command: DeviceCommand):
         """
         Executes the given command.
 
@@ -184,7 +184,7 @@ class DeviceDriver(ABC):
 
     @property
     @abstractmethod
-    def is_device_ready(self) -> bool:
+    async def is_device_ready(self) -> bool:
         """
         A flag the determines whether the device is ready.
 
@@ -248,7 +248,7 @@ class DeviceDriverDescriptor(ABC):
         return self._description
 
     @abstractmethod
-    def get_devices(self) -> List[DeviceInfo]:
+    async def get_devices(self) -> List[DeviceInfo]:
         """Returns a list with the available device instances."""
 
     @property
@@ -267,7 +267,7 @@ class DeviceDriverDescriptor(ABC):
         """This flag determines whether pairing is required to communicate with this device."""
 
     @abstractmethod
-    def start_pairing(self, device_info: DeviceInfo, remote_name: str) -> Tuple[str, bool]:
+    async def start_pairing(self, device_info: DeviceInfo, remote_name: str) -> Tuple[str, bool]:
         """Start the pairing process with the given device.
 
         Parameters
@@ -284,7 +284,7 @@ class DeviceDriverDescriptor(ABC):
         """
 
     @abstractmethod
-    def finalize_pairing(self, pairing_request: str, credentials: str, device_provides_pin: bool) -> bool:
+    async def finalize_pairing(self, pairing_request: str, credentials: str, device_provides_pin: bool) -> bool:
         """Finalize the pairing process
 
         Parameters
@@ -296,7 +296,7 @@ class DeviceDriverDescriptor(ABC):
         """
 
     @abstractmethod
-    def create_device_instance(self, device_id: str) -> DeviceDriver:
+    async def create_device_instance(self, device_id: str) -> DeviceDriver:
         """Create a device driver instance for the device with the given ID.
 
         Parameters
