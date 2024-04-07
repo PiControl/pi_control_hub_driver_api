@@ -223,9 +223,40 @@ class DeviceDriverDescriptor(ABC):
         DeviceDriverDescriptor._config_path = config_path
 
     @staticmethod
+    def set_ir_gpio_in(gpio_pin: int):
+        """GPIO pin where a IR receiver is connected to"""
+        DeviceDriverDescriptor._config_path = config_path
+
+    @staticmethod
     def get_config_path() -> str:
         """The config path where device drivers can store and read their configurations."""
         return DeviceDriverDescriptor._config_path
+
+    @staticmethod
+    def set_ir_gpio_in(gpio_pin: int):
+        """GPIO pin where a IR receiver is connected to"""
+        if gpio_pin == 0:
+            DeviceDriverDescriptor._ir_gpio_in = None
+        else:
+            DeviceDriverDescriptor._ir_gpio_in = gpio_pin
+
+    @staticmethod
+    def get_ir_gpio_in() -> int:
+        """GPIO pin where a IR receiver is connected to"""
+        return DeviceDriverDescriptor._ir_gpio_in
+
+    @staticmethod
+    def set_ir_gpio_out(gpio_pin: int):
+        """GPIO pin where a IR transmitter is connected to"""
+        if gpio_pin == 0:
+            DeviceDriverDescriptor._ir_gpio_out = None
+        else:
+            DeviceDriverDescriptor._ir_gpio_out = gpio_pin
+
+    @staticmethod
+    def get_ir_gpio_out() -> int:
+        """GPIO pin where a IR transmitter is connected to"""
+        return DeviceDriverDescriptor._ir_gpio_out
 
     def __init__(self, driver_id: UUID, display_name: str, description: str):
         self._driver_id = driver_id
